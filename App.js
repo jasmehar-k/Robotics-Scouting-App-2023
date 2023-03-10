@@ -41,6 +41,18 @@ export default function App() {
     setQrVisible(true);
     console.log("show qr");
   }
+  const handleNewPress = () => {
+    setQrVisible(false);
+    setTeamNum();
+    setComments("");
+    setPenalties("");
+    setMalfunctionTime(0)
+    setDefTime(0);
+    setDrivetrain(""),
+    setAutonDock("");
+    setTeleopPoints([]);
+    setFumbles([]);
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -730,14 +742,18 @@ export default function App() {
         }}
         onPress= {handleSubmitPress}
       >
-        {/* generate QR code button -- triggers screen navigation */}
+        {/* generate QR code button*/}
         <Text
           style={styles.buttonText}
         >Submit!</Text>
       </TouchableOpacity>
       <Modal visible = {qrVisible}>
         <View style = {styles.modal}>
-          <QRCode value =  {JSON.stringify({"team":teamNum,
+          <QRCode 
+            size={
+              300
+            }
+          value =  {JSON.stringify({"team":teamNum,
           "charge_station_auton":autonDock, 
           "game_pieces_tele":teleopPoints.join(","),
           "game_pieces_fumbled": fumbles.join(","),
@@ -746,7 +762,30 @@ export default function App() {
           "penalty_points": penalties,
           "comments": comments
           })}/>
-          <Button title='Close' onPress = {() => setQrVisible(false)} />
+          {/* <Button title= "New Game" onPress = {()=> handleNewPress()}/> */}
+          {/* New Game Button: */}
+          <TouchableOpacity
+            style={{
+              backgroundColor: 'darkred',
+              paddingVertical: 10,
+              paddingHorizontal: 40,
+              justifyContent: 'center',
+              height: 80,
+              marginTop: 40, 
+            }}
+            onPress={() => handleNewPress()}
+          >
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 15,
+                fontWeight: 'bold',
+              }}
+            >
+              New Game
+            </Text>
+          </TouchableOpacity>
+
         </View>
       </Modal>
       <StatusBar style="auto" />
